@@ -1,0 +1,14 @@
+services:
+  ip-monitor:
+    build: .
+    container_name: telegram-ip-monitor
+    restart: unless-stopped
+    environment:
+      # It is best practice to pass these in via an .env file
+      # so your secrets aren't hardcoded in the compose file.
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    volumes:
+      # Maps a local 'data' folder to the container's working directory.
+      # The Go app will automatically create last_ip.txt inside this folder.
+      - ./data:/app
