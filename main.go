@@ -40,6 +40,10 @@ type TelegramUpdatesResponse struct {
 }
 
 func main() {
+	// Clean up environment variables in case they have quotes or spaces from the .env file
+	telegramBotToken = strings.Trim(strings.TrimSpace(telegramBotToken), `"'`)
+	telegramChatID = strings.Trim(strings.TrimSpace(telegramChatID), `"'`)
+
 	if telegramBotToken == "" || telegramChatID == "" {
 		log.Fatal("Telegram credentials must be set in environment variables.")
 	}
