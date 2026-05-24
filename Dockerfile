@@ -23,7 +23,7 @@ RUN apk --no-cache add ca-certificates tzdata
 WORKDIR /app
 
 # Copy the compiled binary from the builder stage
-COPY --from=builder /app-binary ./ip-monitor
+COPY --from=builder /app-binary /usr/local/bin/ip-monitor
 
 # Command to run when the container starts
-CMD ["./ip-monitor"]
+CMD ["ip-monitor"]
