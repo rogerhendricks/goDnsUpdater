@@ -109,6 +109,12 @@ func startBotListener() {
 		}
 		resp.Body.Close()
 
+		if !updateResp.Ok {
+			log.Printf("[Listener] Telegram API error: HTTP %d. Token might be invalid or webhook is active.", resp.StatusCode)
+			time.Sleep(5 * time.Second)
+			continue
+		}
+
 		for _, update := range updateResp.Result {
 			offset = update.UpdateID + 1
 
@@ -125,7 +131,7 @@ func startBotListener() {
 
 			// Process commands
 			command := strings.TrimSpace(strings.ToLower(update.Message.Text))
-			if command == "/ip" || command == "/status" {
+			if strings.HasPrefix(command, "/ip") || strings.HasPrefix(command, "/status") {
 				log.Println("[Listener] Received manual IP request.")
 				handleOnDemandRequest()
 			}
